@@ -1,15 +1,39 @@
 [tool.poetry]
-name = "recipe-scanner"
-description = "Recipe Scanner"
+name = "receipt-scanner"
+version = "0.0.1"
+description = "A receipt scanner library to parse text from receipts"
+license = "MIT"
 authors = ["Daniel Leal <dlleal@uc.cl>"]
-version = "0.1.0"
+maintainers = ["Daniel Leal <dlleal@uc.cl>"]
+readme = "README.md"
+homepage = "https://github.com/daleal/receipt-scanner"
+repository = "https://github.com/daleal/receipt-scanner"
+documentation = "https://github.com/daleal/receipt-scanner"
+classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
 
 packages = [
     { include = "receipt_scanner" },
 ]
+exclude = [
+    ".github",
+    ".flake8",
+    ".pylintrc",
+    "mypy.ini",
+    "Makefile",
+    "scripts"
+]
 
 [tool.poetry.dependencies]
-python = ">=3.10, <3.12"
+python = "^3.10"
 pytesseract = "^0.3.10"
 opencv-python = "^4.6.0"
 numpy = "^1.23.3"
@@ -24,3 +48,6 @@ mypy = "^0.971"
 
 [tool.poetry.plugins."console_scripts"]
 scanner = "receipt_scanner.cli:dispatcher"
+
+[tool.poetry.urls]
+"Issue Tracker" = "https://github.com/daleal/receipt-scanner/issues"

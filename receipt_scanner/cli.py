@@ -2,6 +2,7 @@ import argparse
 import re
 from typing import TypedDict
 
+import receipt_scanner
 from receipt_scanner.core import scan
 
 
@@ -49,6 +50,14 @@ def generate_parser() -> argparse.ArgumentParser:
         default=False,
         const=True,
         help="Run in debug mode.",
+    )
+
+    # Version
+    parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
+        version=f"receipt-scanner version {receipt_scanner.__version__}",
     )
 
     return parser

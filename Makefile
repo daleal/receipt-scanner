@@ -1,4 +1,10 @@
+POETRY_VERSION = 1.2.1
+
 # Env stuff
+.PHONY: get-poetry
+get-poetry:
+	curl -sSL https://install.python-poetry.org | python3 - --version $(POETRY_VERSION)
+
 .PHONY: build-env
 build-env:
 	python3.10 -m venv .venv
@@ -34,3 +40,12 @@ black!:
 .PHONY: isort!
 isort!:
 	poetry run isort receipt_scanner --profile=black
+
+# Utilities
+.PHONY: bump!
+bump!:
+	sh scripts/bump.sh $(filter-out $@,$(MAKECMDGOALS))
+
+# Receive args (use like `$(filter-out $@,$(MAKECMDGOALS))`)
+%:
+	@:
