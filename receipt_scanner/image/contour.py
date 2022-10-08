@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 
 from .debug import debug_show
+from .errors import NoContourFoundError
 
 logger = getLogger(__name__)
 
@@ -45,7 +46,7 @@ def find_best_rectangular_contour(contours: list[np.ndarray]):
         contour_approximation = approximate_contour(contour)
         if len(contour_approximation) == 4:
             return contour_approximation
-    raise Exception("No valid contour was found")
+    raise NoContourFoundError("No valid contour was found")
 
 
 def filter_largest_contours(
