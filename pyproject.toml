@@ -13,6 +13,7 @@ python = ">=3.10, <3.12"
 pytesseract = "^0.3.10"
 opencv-python = "^4.6.0"
 numpy = "^1.23.3"
+httpx = "^0.23.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"
