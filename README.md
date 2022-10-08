@@ -65,3 +65,7 @@ make build-env
 ```
 
 Once the package is installed for development (`poetry install`), you can use the CLI from the virtualenv.
+
+## Aknowledgements
+
+Most of the code from this project was adapted from StackOverflow answers to questions about contour-finding, denoising and stuff like that. I also used code from several guides from the internet for utilities such as transforming a contour to a rect. Without those answers, most of this library would have been impossible for me to write. Thanks for the awesome information! 💖
