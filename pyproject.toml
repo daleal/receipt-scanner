@@ -4,7 +4,7 @@ version = "0.0.1"
 description = "A receipt scanner library to parse text from receipts"
 license = "MIT"
 authors = ["Daniel Leal <dlleal@uc.cl>"]
-mantainers = ["Daniel Leal <dlleal@uc.cl>"]
+maintainers = ["Daniel Leal <dlleal@uc.cl>"]
 readme = "README.md"
 homepage = "https://github.com/daleal/receipt-scanner"
 repository = "https://github.com/daleal/receipt-scanner"
@@ -28,7 +28,8 @@ exclude = [
     ".flake8",
     ".pylintrc",
     "mypy.ini",
-    "Makefile"
+    "Makefile",
+    "scripts"
 ]
 
 [tool.poetry.dependencies]

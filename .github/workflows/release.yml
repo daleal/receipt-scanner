@@ -1,0 +1,74 @@
+name: release
+
+on:
+  push:
+    branches:
+      - stable
+
+jobs:
+  pypi-release:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10.6"
+
+      - name: Install Poetry
+        run: make get-poetry
+
+      - name: Add system path to Poetry
+        run: echo $HOME/.poetry/bin >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Build the package
+        run: poetry build
+
+      - name: Publish the package
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          verbose: true
+
+  github-release:
+    needs: pypi-release
+
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10.6"
+
+      - name: Install Poetry
+        run: make get-poetry
+
+      - name: Add system path to Poetry
+        run: echo $HOME/.poetry/bin >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Get version
+        id: version
+        run: echo ::set-output name=version::$(poetry run scanner --version | rev | cut -d' ' -f1 | rev)
+
+      - name: Get Pull Request data
+        uses: jwalton/gh-find-current-pr@v1
+        id: find-pr
+        with:
+          state: all
+
+      - name: Tag and Release
+        uses: actions/release-action@v1
+        with:
+          tag: ${{ steps.version.outputs.version }}
+          name: ${{ steps.version.outputs.version }}
+          body: |
+            ${{ steps.find-pr.outputs.body }}
