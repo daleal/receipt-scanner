@@ -40,7 +40,7 @@ def approximate_contour(contour: np.ndarray) -> np.ndarray:
     return cv2.approxPolyDP(contour, 0.032 * perimeter, True)
 
 
-def find_best_rectangular_contour(contours: list[np.ndarray]):
+def find_best_rectangular_contour(contours: list[np.ndarray]) -> np.ndarray:
     logger.debug("Searching for the best contour...")
     for contour in contours:
         contour_approximation = approximate_contour(contour)

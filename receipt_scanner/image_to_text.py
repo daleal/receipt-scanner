@@ -1,6 +1,5 @@
 from logging import getLogger
 
-import cv2
 import numpy as np
 import pytesseract
 

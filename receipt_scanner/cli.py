@@ -11,7 +11,7 @@ class Arguments(TypedDict):
     debug: bool
 
 
-def dispatcher():
+def dispatcher() -> None:
     parser = generate_parser()
     arguments = process_parser(parser)
     scanned_lines = scan(**arguments)
@@ -21,7 +21,7 @@ def dispatcher():
     print("\n".join(scanned_lines))
 
 
-def generate_parser():
+def generate_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
 
     # Image

@@ -1,6 +1,5 @@
 from logging import getLogger
 
-import cv2
 import numpy as np
 
 from receipt_scanner.image.constants import (
@@ -8,7 +7,7 @@ from receipt_scanner.image.constants import (
     TEXT_CLEANUP_TARGET_WIDTH,
 )
 from receipt_scanner.image.contour import find_contour
-from receipt_scanner.image.debug import debug_show, visualize_contour_on_image
+from receipt_scanner.image.debug import visualize_contour_on_image
 from receipt_scanner.image.filters import (
     BinarizeFilter,
     CannyFilter,
