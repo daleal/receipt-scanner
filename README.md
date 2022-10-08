@@ -1,4 +1,23 @@
-# Receipt Scanner
+<h1 align="center">Receipt Scanner</h1>
+
+<p align="center">
+    <em>
+        Write applications to charge money to your friends after you paid the whole bill by easily parsing the receipt 💸
+    </em>
+</p>
+
+<p align="center">
+<a href="https://pypi.org/project/receipt-scanner" target="_blank">
+    <img src="https://img.shields.io/pypi/v/receipt-scanner?label=version&logo=python&logoColor=%23fff&color=306998" alt="PyPI - Version">
+</a>
+<a href="https://github.com/daleal/receipt-scanner/actions?query=workflow%3Alinters" target="_blank">
+    <img src="https://img.shields.io/github/workflow/status/daleal/receipt-scanner/linters?label=linters&logo=github" alt="Linters">
+</a>
+</p>
+
+## Why would I use Receipt Scanner
+
+We've all been there: the dinner ended and the bill arrived at the table. Everyone is looking at you to pay for the bill. "_I will pay you back immediately_", they say. "_Just send a picture of the receipt I will transfer you the money_". **Idiots**. We all know most of them will have forgotten about the damn receipt picture as soon as they get into their cars. **Now you can take matters into your own hands**. Using this library, you can write an application that parses and classifies items from the receipt, and then charges money to your friends _automagically_. No more waiting for them to calculate the amount they owe you "_as soon as they have a minute_".
 
 ## Installation
 
