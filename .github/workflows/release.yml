@@ -66,7 +66,7 @@ jobs:
           state: all
 
       - name: Tag and Release
-        uses: actions/release-action@v1
+        uses: ncipollo/release-action@v1
         with:
           tag: ${{ steps.version.outputs.version }}
           name: ${{ steps.version.outputs.version }}
