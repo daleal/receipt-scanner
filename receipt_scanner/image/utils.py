@@ -3,7 +3,7 @@ from logging import getLogger
 import cv2
 import numpy as np
 
-from .debug import debug_show
+from receipt_scanner.image.debug import debug_show
 
 logger = getLogger(__name__)
 

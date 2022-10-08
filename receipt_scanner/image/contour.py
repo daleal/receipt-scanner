@@ -3,8 +3,8 @@ from logging import getLogger
 import cv2
 import numpy as np
 
-from .debug import debug_show
-from .errors import NoContourFoundError
+from receipt_scanner.image.debug import debug_show
+from receipt_scanner.image.errors import NoContourFoundError
 
 logger = getLogger(__name__)
 

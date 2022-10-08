@@ -3,7 +3,7 @@ from logging import getLogger
 import cv2
 import numpy as np
 
-from .base_filter import Filter
+from receipt_scanner.image.filters.base_filter import Filter
 
 logger = getLogger(__name__)
 

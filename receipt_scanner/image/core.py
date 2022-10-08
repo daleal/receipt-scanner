@@ -3,10 +3,13 @@ from logging import getLogger
 import cv2
 import numpy as np
 
-from .constants import EDGE_DETECTION_TARGET_WIDTH, TEXT_CLEANUP_TARGET_WIDTH
-from .contour import find_contour
-from .debug import debug_show, visualize_contour_on_image
-from .filters import (
+from receipt_scanner.image.constants import (
+    EDGE_DETECTION_TARGET_WIDTH,
+    TEXT_CLEANUP_TARGET_WIDTH,
+)
+from receipt_scanner.image.contour import find_contour
+from receipt_scanner.image.debug import debug_show, visualize_contour_on_image
+from receipt_scanner.image.filters import (
     BinarizeFilter,
     CannyFilter,
     DenoiseFilter,
@@ -18,7 +21,7 @@ from .filters import (
     ResizeFilter,
     ThresholdsFilter,
 )
-from .utils import get_ratio_for_width, open_image
+from receipt_scanner.image.utils import get_ratio_for_width, open_image
 
 logger = getLogger(__name__)
 

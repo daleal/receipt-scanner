@@ -2,10 +2,10 @@ from logging import getLogger
 
 import cv2
 import numpy as np
-from image.contour import contour_to_rect
-from image.debug import debug_show
 
-from .base_filter import Filter
+from receipt_scanner.image.contour import contour_to_rect
+from receipt_scanner.image.debug import debug_show
+from receipt_scanner.image.filters.base_filter import Filter
 
 logger = getLogger(__name__)
 

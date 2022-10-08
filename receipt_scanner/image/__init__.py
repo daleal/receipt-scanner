@@ -1,1 +1,1 @@
-from .core import process_image
+from receipt_scanner.image.core import process_image
