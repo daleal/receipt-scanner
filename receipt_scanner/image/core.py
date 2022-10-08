@@ -3,6 +3,7 @@ from logging import getLogger
 import cv2
 import numpy as np
 
+from .constants import EDGE_DETECTION_TARGET_WIDTH, TEXT_CLEANUP_TARGET_WIDTH
 from .contour import find_contour
 from .debug import debug_show, visualize_contour_on_image
 from .filters import (
@@ -17,17 +18,20 @@ from .filters import (
     ResizeFilter,
     ThresholdsFilter,
 )
+from .utils import get_ratio_for_width, open_image
 
 logger = getLogger(__name__)
 
 
 def process_image(file_name: str, debug: bool = False) -> np.ndarray:
     original_image = open_image(file_name, debug=debug)
-    edge_detection_downsize_ratio = 500 / original_image.shape[0]
+    edge_detection_resize_ratio = get_ratio_for_width(
+        original_image, EDGE_DETECTION_TARGET_WIDTH
+    )
 
     downsized_image = Filter.apply(
         original_image,
-        ResizeFilter(edge_detection_downsize_ratio),
+        ResizeFilter(edge_detection_resize_ratio),
     )
 
     processed_image = Filter.apply(
@@ -42,22 +46,18 @@ def process_image(file_name: str, debug: bool = False) -> np.ndarray:
     contour = find_contour(processed_image, downsized_image, debug=debug)
     visualize_contour_on_image(downsized_image, contour, debug=debug)
 
-    text_cleanup_downsize_ratio = 1600 / original_image.shape[0]
-
-    return Filter.apply(
+    wrapped_perspective_image = Filter.apply(
         original_image,
-        PerspectiveWrapperFilter(contour, edge_detection_downsize_ratio, debug=debug),
-        BinarizeFilter(debug=debug),
-        DenoiseFilter(debug=debug),
-        ResizeFilter(text_cleanup_downsize_ratio),
+        PerspectiveWrapperFilter(contour, edge_detection_resize_ratio, debug=debug),
     )
 
+    text_cleanup_resize_ratio = get_ratio_for_width(
+        wrapped_perspective_image, TEXT_CLEANUP_TARGET_WIDTH
+    )
 
-def open_image(file_name: str, debug: bool = False) -> np.ndarray:
-    logger.debug("Opening image...")
-    original = cv2.imread(file_name)
-    if original is None:
-        raise Exception(f"Couldn't find file {file_name}")
-    bordered_image = cv2.copyMakeBorder(original, 50, 50, 50, 50, cv2.BORDER_CONSTANT)
-    debug_show(bordered_image, debug=debug)
-    return bordered_image
+    return Filter.apply(
+        wrapped_perspective_image,
+        BinarizeFilter(debug=debug),
+        DenoiseFilter(debug=debug),
+        ResizeFilter(text_cleanup_resize_ratio),
+    )
