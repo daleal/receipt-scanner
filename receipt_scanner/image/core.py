@@ -15,7 +15,8 @@ def process_image(file_name: str, debug: bool = False) -> np.ndarray:
     downsized_image = resize_image(original_image, downsize_ratio)
     grayscaled_image = convert_to_grayscale(downsized_image, debug=debug)
     blurred_image = apply_gaussian_blur(grayscaled_image, debug=debug)
-    white_regions_detected_image = detect_white_regions(blurred_image, debug=debug)
+    thresholded_image = apply_thresholds(blurred_image, debug=debug)
+    white_regions_detected_image = detect_white_regions(thresholded_image, debug=debug)
     edged_image = detect_edges(white_regions_detected_image, debug=debug)
     contours = detect_contours(edged_image, downsized_image)
     largest_contours = filter_largest_contours(contours, downsized_image, debug=debug)
@@ -25,8 +26,10 @@ def process_image(file_name: str, debug: bool = False) -> np.ndarray:
     wrapped_perspective_image = wrap_image_perspective(
         original_image, contour, downsize_ratio, debug=debug
     )
-    downsize_ratio = 1600 / wrapped_perspective_image.shape[0]
-    return resize_image(wrapped_perspective_image, downsize_ratio)
+    binarized_image = binarize_image(wrapped_perspective_image, debug=debug)
+    denoised_image = denoise_image(binarized_image, debug=debug)
+    downsize_ratio = 1600 / denoised_image.shape[0]
+    return resize_image(denoised_image, downsize_ratio)
 
 
 def open_image(file_name: str, debug: bool = False) -> np.ndarray:
@@ -60,6 +63,15 @@ def apply_gaussian_blur(image: np.ndarray, debug: bool = False) -> np.ndarray:
     blurred_image = cv2.GaussianBlur(image, (5, 5), 0)
     debug_show(blurred_image, debug=debug)
     return blurred_image
+
+
+def apply_thresholds(image: np.ndarray, debug: bool = False) -> np.ndarray:
+    logger.debug("Applying Binary and ToZero thresholds...")
+    _, thresholded_image = cv2.threshold(
+        image, 150, 255, cv2.THRESH_BINARY + cv2.THRESH_TOZERO
+    )
+    debug_show(thresholded_image, debug=debug)
+    return thresholded_image
 
 
 def detect_white_regions(image: np.ndarray, debug: bool = False) -> np.ndarray:
@@ -127,3 +139,22 @@ def wrap_image_perspective(
     wrapped_perspective_image = wrap_perspective(working_image, contour_rect)
     debug_show(wrapped_perspective_image, debug=debug)
     return wrapped_perspective_image
+
+
+def binarize_image(
+    image: np.ndarray, sigma: float = 0.33, debug: bool = False
+) -> np.ndarray:
+    logger.debug("Binarizing image...")
+    median = np.median(image)
+    lower = int(max(0, (1.0 - sigma) * median))
+    upper = int(min(255, (1.0 + sigma) * median))
+    _, binarized_image = cv2.threshold(image, lower, upper, cv2.THRESH_BINARY)
+    debug_show(binarized_image, debug=debug)
+    return binarized_image
+
+
+def denoise_image(image: np.ndarray, debug: bool = False) -> np.ndarray:
+    logger.debug("Denoising image...")
+    denoised_image = cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
+    debug_show(denoised_image, debug=debug)
+    return denoised_image
