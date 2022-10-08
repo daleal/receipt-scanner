@@ -2,7 +2,7 @@ from parser import get_items_from_text
 
 from cli import get_arguments
 from debug import configure_logger
-from image.core import process_image
+from image import process_image
 from image_to_text import get_text
 
 arguments = get_arguments()
