@@ -8,10 +8,11 @@ from receipt_scanner.parser import filter_text
 
 def scan(
     image_location: str,
+    allowed_characters: str | None = None,
     regular_expression: re.Pattern | None = None,
     debug: bool = False,
 ) -> list[str]:
     configure_logger(debug=debug)
     image = process_image(image_location, debug=debug)
-    text = get_text(image)
+    text = get_text(image, allowed_characters=allowed_characters)
     return filter_text(text, regular_expression)
