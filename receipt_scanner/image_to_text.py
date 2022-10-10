@@ -15,8 +15,6 @@ def get_text(image: np.ndarray, allowed_characters: str | None) -> str:
     logger.debug("Extracting text from image...")
     charset = allowed_characters or DEFAULT_ALLOWED_CHARACTERS
     options = {
-        "config": (
-            f"--psm 4 -c tessedit_char_whitelist={charset} " "-l spa+eng"
-        ),
+        "config": f"--psm 4 -c tessedit_char_whitelist={charset} -l spa+eng",
     }
     return pytesseract.image_to_string(image, **options)
