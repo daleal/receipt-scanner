@@ -8,6 +8,7 @@ from receipt_scanner.core import scan
 
 class Arguments(TypedDict):
     image_location: str
+    allowed_characters: str | None
     regular_expression: re.Pattern | None
     debug: bool
 
@@ -31,6 +32,14 @@ def generate_parser() -> argparse.ArgumentParser:
         "--image",
         dest="image_location",
         help="Location of the receipt image (can be a local path or a URL).",
+    )
+
+    # Allowed Characters
+    parser.add_argument(
+        "-c",
+        "--characters",
+        dest="allowed_characters",
+        help="Characters allowed to be identified from the image.",
     )
 
     # Regular Expression
@@ -67,6 +76,7 @@ def process_parser(parser: argparse.ArgumentParser) -> Arguments:
     arguments_namespace = parser.parse_args()
     return {
         "image_location": arguments_namespace.image_location,
+        "allowed_characters": arguments_namespace.allowed_characters,
         "regular_expression": (
             re.compile(arguments_namespace.regular_expression)
             if arguments_namespace.regular_expression
