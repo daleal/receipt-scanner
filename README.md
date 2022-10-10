@@ -55,6 +55,20 @@ You can also use `receipt-scanner` as a CLI! Once installed, the `scanner` comma
 scanner --image path/to/some/image.jpg --expression "([0-9]+\.[0-9]+)" --debug
 ```
 
+### Specifying allowed characters
+
+By default, the library will use for the following characters:
+
+```py
+DEFAULT_ALLOWED_CHARACTERS = (
+    "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz1234567890\ "
+)
+```
+
+Notice that the last "\ " represents the space character.
+
+You can pass a set of allowed characters to the engine, either by using the `--characters` flag when using the CLI or by passing the `allowed_characters` attribute to the `scan` method of the library.
+
 ### Debugging
 
 The `debug` flag will show logs of every step, and will freeze each image manipulation step to show the result of said manipulation. This can be useful to understand why the `scan` command might be returning an empty list, for example (you might find that the image has poor contrast and that the contour of the receipt is not being correctly mapped).
