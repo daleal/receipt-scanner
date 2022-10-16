@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "receipt-scanner"
-version = "0.0.2"
+version = "0.1.0"
 description = "Write applications to charge money to your friends after you paid the whole bill by easily parsing the receipt 💸"
 license = "MIT"
 authors = ["Daniel Leal <dlleal@uc.cl>"]
