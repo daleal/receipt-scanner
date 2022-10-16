@@ -9,12 +9,12 @@ from receipt_scanner.image.filters.base_filter import Filter
 logger = getLogger(__name__)
 
 
-class DenoiseFilter(Filter):
+class MedianBlurFilter(Filter):
     def __init__(self, debug: bool = False) -> None:
         self.debug = debug
 
     def eval(self, image: np.ndarray) -> np.ndarray:
-        logger.debug("Applying 'DenoiseFilter'...")
-        denoised_image = cv2.fastNlMeansDenoisingColored(image, None, 15, 15, 7, 21)
-        debug_show(denoised_image, debug=self.debug)
-        return denoised_image
+        logger.debug("Applying 'MedianBlurFilter'...")
+        blurred_image = cv2.medianBlur(image, 3)
+        debug_show(blurred_image, debug=self.debug)
+        return blurred_image

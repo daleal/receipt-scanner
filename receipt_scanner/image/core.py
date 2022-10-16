@@ -15,6 +15,9 @@ from receipt_scanner.image.filters import (
     DenoiseFilter,
     DilateFilter,
     Filter,
+    GaussianBlurFilter,
+    GrayscaleFilter,
+    MedianBlurFilter,
     MorphologicalCloseFilter,
     PerspectiveWrapperFilter,
     ResizeFilter,
@@ -57,7 +60,10 @@ def process_image(file_name: str, debug: bool = False) -> np.ndarray:
 
     return Filter.apply(
         wrapped_perspective_image,
-        BinarizeFilter(debug=debug),
+        MedianBlurFilter(debug=debug),
         DenoiseFilter(debug=debug),
+        GaussianBlurFilter(debug=debug),
+        GrayscaleFilter(debug=debug),
+        BinarizeFilter(debug=debug),
         ResizeFilter(text_cleanup_resize_ratio),
     )

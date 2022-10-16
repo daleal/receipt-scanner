@@ -82,7 +82,7 @@ def filter_external_contour(
 
 
 def valid_contour(image: np.ndarray, contour: np.ndarray) -> bool:
-    return cv2.contourArea(contour) <= (0.8 * image.shape[0] * image.shape[1])
+    return cv2.contourArea(contour) <= (0.75 * image.shape[0] * image.shape[1])
 
 
 def detect_contours(

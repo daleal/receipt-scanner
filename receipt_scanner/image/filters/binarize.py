@@ -15,6 +15,13 @@ class BinarizeFilter(Filter):
 
     def eval(self, image: np.ndarray) -> np.ndarray:
         logger.debug("Applying 'BinarizeFilter'...")
-        _, binarized_image = cv2.threshold(image, 168, 255, cv2.THRESH_BINARY)
+        binarized_image = cv2.adaptiveThreshold(
+            image,
+            255,
+            cv2.ADAPTIVE_THRESH_MEAN_C,
+            cv2.THRESH_BINARY,
+            11,
+            2,
+        )
         debug_show(binarized_image, debug=self.debug)
         return binarized_image
