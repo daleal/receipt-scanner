@@ -11,6 +11,7 @@ from receipt_scanner.image.debug import visualize_contour_on_image
 from receipt_scanner.image.filters import (
     BinarizeFilter,
     CannyFilter,
+    CompressFilter,
     DenoiseFilter,
     DilateFilter,
     Filter,
@@ -33,6 +34,7 @@ def process_image(file_name: str, debug: bool = False) -> np.ndarray:
 
     downsized_image = Filter.apply(
         original_image,
+        CompressFilter(),
         ResizeFilter(edge_detection_resize_ratio),
     )
 
