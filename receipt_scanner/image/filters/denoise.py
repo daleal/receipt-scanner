@@ -15,6 +15,6 @@ class DenoiseFilter(Filter):
 
     def eval(self, image: np.ndarray) -> np.ndarray:
         logger.debug("Applying 'DenoiseFilter'...")
-        denoised_image = cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
+        denoised_image = cv2.fastNlMeansDenoisingColored(image, None, 15, 15, 7, 21)
         debug_show(denoised_image, debug=self.debug)
         return denoised_image
