@@ -4,8 +4,6 @@ from .canny import CannyFilter
 from .compress import CompressFilter
 from .denoise import DenoiseFilter
 from .dilate import DilateFilter
-from .gaussian_blur import GaussianBlurFilter
-from .grayscale import GrayscaleFilter
+from .morphological_close import MorphologicalCloseFilter
 from .perspective_wrapper import PerspectiveWrapperFilter
 from .resize import ResizeFilter
-from .thresholds import ThresholdsFilter

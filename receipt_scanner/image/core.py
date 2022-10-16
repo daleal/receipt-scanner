@@ -15,11 +15,9 @@ from receipt_scanner.image.filters import (
     DenoiseFilter,
     DilateFilter,
     Filter,
-    GaussianBlurFilter,
-    GrayscaleFilter,
+    MorphologicalCloseFilter,
     PerspectiveWrapperFilter,
     ResizeFilter,
-    ThresholdsFilter,
 )
 from receipt_scanner.image.utils import get_ratio_for_width, open_image
 
@@ -40,11 +38,9 @@ def process_image(file_name: str, debug: bool = False) -> np.ndarray:
 
     processed_image = Filter.apply(
         downsized_image,
-        GrayscaleFilter(debug=debug),
-        GaussianBlurFilter(debug=debug),
-        ThresholdsFilter(debug=debug),
-        DilateFilter(debug=debug),
+        MorphologicalCloseFilter(iterations=4, debug=debug),
         CannyFilter(debug=debug),
+        DilateFilter(debug=debug),
     )
 
     contour = find_contour(processed_image, downsized_image, debug=debug)
