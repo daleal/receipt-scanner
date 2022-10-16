@@ -15,7 +15,7 @@ class DilateFilter(Filter):
 
     def eval(self, image: np.ndarray) -> np.ndarray:
         logger.debug("Applying 'DilateFilter'...")
-        rect_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (9, 9))
+        rect_kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
         dilated_image = cv2.dilate(image, rect_kernel)
         debug_show(dilated_image, debug=self.debug)
         return dilated_image

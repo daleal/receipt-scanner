@@ -30,9 +30,13 @@ def find_contour(
     processed_image: np.ndarray, downsized_image: np.ndarray, debug: bool = False
 ) -> np.ndarray:
     contours = detect_contours(processed_image, downsized_image)
-    largest_contours = filter_largest_contours(downsized_image, contours, debug=debug)
-    best_contour = find_best_rectangular_contour(largest_contours)
-    return approximate_contour(best_contour)
+    internal_contours = filter_external_contour(downsized_image, contours)
+    largest_contours = filter_largest_contours(
+        downsized_image,
+        internal_contours,
+        debug=debug,
+    )
+    return find_best_rectangular_contour(largest_contours)
 
 
 def approximate_contour(contour: np.ndarray) -> np.ndarray:
@@ -62,6 +66,23 @@ def filter_largest_contours(
     )
     debug_show(image_with_largest_contours, debug=debug)
     return largest_contours
+
+
+def filter_external_contour(
+    original_image: np.ndarray,
+    contours: list[np.ndarray],
+) -> list[np.ndarray]:
+    logger.debug("Filtering artificial external contour...")
+    return list(
+        filter(
+            lambda x: valid_contour(original_image, x),
+            contours,
+        )
+    )
+
+
+def valid_contour(image: np.ndarray, contour: np.ndarray) -> bool:
+    return cv2.contourArea(contour) <= (0.8 * image.shape[0] * image.shape[1])
 
 
 def detect_contours(
