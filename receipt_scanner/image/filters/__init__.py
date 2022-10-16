@@ -1,6 +1,7 @@
 from .base_filter import Filter
 from .binarize import BinarizeFilter
 from .canny import CannyFilter
+from .compress import CompressFilter
 from .denoise import DenoiseFilter
 from .dilate import DilateFilter
 from .gaussian_blur import GaussianBlurFilter
