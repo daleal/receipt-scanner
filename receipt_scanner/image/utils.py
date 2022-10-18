@@ -26,7 +26,7 @@ def fetch_image(image_location: str) -> np.ndarray:
     try:
         response = httpx.get(image_location)
         image_array = np.asarray(bytearray(response.read()), dtype=np.uint8)
-        image = cv2.imdecode(image_array, -1)
+        image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
     except (cv2.error, httpx.UnsupportedProtocol):
         image = cv2.imread(image_location)
     if image is None:

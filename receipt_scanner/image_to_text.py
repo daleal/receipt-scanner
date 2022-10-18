@@ -7,7 +7,7 @@ logger = getLogger(__name__)
 
 
 DEFAULT_ALLOWED_CHARACTERS = (
-    "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz1234567890\ "
+    "ABCDEFGHIJKLMNÑOPQRSTUVWXYZabcdefghijklmnñopqrstuvwxyz1234567890\ ,.$/|-"
 )
 
 
