@@ -42,6 +42,8 @@ def process_image(file_name: str, debug: bool = False) -> np.ndarray:
     processed_image = Filter.apply(
         downsized_image,
         MorphologicalCloseFilter(iterations=4, debug=debug),
+        MedianBlurFilter(debug=debug),
+        GaussianBlurFilter(debug=debug),
         CannyFilter(debug=debug),
         DilateFilter(debug=debug),
     )
@@ -60,10 +62,10 @@ def process_image(file_name: str, debug: bool = False) -> np.ndarray:
 
     return Filter.apply(
         wrapped_perspective_image,
+        ResizeFilter(text_cleanup_resize_ratio),
         MedianBlurFilter(debug=debug),
         DenoiseFilter(debug=debug),
         GaussianBlurFilter(debug=debug),
         GrayscaleFilter(debug=debug),
         BinarizeFilter(debug=debug),
-        ResizeFilter(text_cleanup_resize_ratio),
     )
