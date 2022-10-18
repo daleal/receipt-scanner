@@ -29,8 +29,13 @@ def contour_to_rect(contour: np.ndarray, resize_ratio: float) -> np.ndarray:
 def find_contour(
     processed_image: np.ndarray, downsized_image: np.ndarray, debug: bool = False
 ) -> np.ndarray:
-    contours = detect_contours(processed_image, downsized_image)
-    internal_contours = filter_external_contour(downsized_image, contours)
+    contours = detect_contours(processed_image, downsized_image, debug=debug)
+    big_contours = filter_external_contour(downsized_image, contours, debug=debug)
+    internal_contours = filter_external_contour(
+        downsized_image,
+        big_contours,
+        debug=debug,
+    )
     largest_contours = filter_largest_contours(
         downsized_image,
         internal_contours,
@@ -68,21 +73,54 @@ def filter_largest_contours(
     return largest_contours
 
 
+def filter_internal_contours(
+    original_image: np.ndarray,
+    contours: list[np.ndarray],
+    debug: bool = False,
+) -> list[np.ndarray]:
+    logger.debug("Filtering very small internal contours...")
+    ordered = sorted(contours, key=cv2.contourArea)
+    final_contours: list[np.ndarray] = []
+    for index, contour in enumerate(ordered):
+        if index == len(contours) - 1 and not final_contours:
+            final_contours.append(contour)
+        else:
+            if contour_not_too_small(original_image, contour):
+                final_contours.append(contour)
+    image_with_contours = cv2.drawContours(
+        original_image.copy(), final_contours, -1, (0, 255, 0), 3
+    )
+    debug_show(image_with_contours, debug=debug)
+    return final_contours
+
+
 def filter_external_contour(
     original_image: np.ndarray,
     contours: list[np.ndarray],
+    debug: bool = False,
 ) -> list[np.ndarray]:
     logger.debug("Filtering artificial external contour...")
-    return list(
-        filter(
-            lambda x: valid_contour(original_image, x),
-            contours,
-        )
+    ordered = sorted(contours, key=cv2.contourArea, reverse=True)
+    final_contours: list[np.ndarray] = []
+    for index, contour in enumerate(ordered):
+        if index == len(contours) - 1 and not final_contours:
+            final_contours.append(contour)
+        else:
+            if contour_not_too_big(original_image, contour):
+                final_contours.append(contour)
+    image_with_contours = cv2.drawContours(
+        original_image.copy(), final_contours, -1, (0, 255, 0), 3
     )
+    debug_show(image_with_contours, debug=debug)
+    return final_contours
 
 
-def valid_contour(image: np.ndarray, contour: np.ndarray) -> bool:
+def contour_not_too_big(image: np.ndarray, contour: np.ndarray) -> bool:
     return cv2.contourArea(contour) <= (0.75 * image.shape[0] * image.shape[1])
+
+
+def contour_not_too_small(image: np.ndarray, contour: np.ndarray) -> bool:
+    return cv2.contourArea(contour) >= (0.3 * image.shape[0] * image.shape[1])
 
 
 def detect_contours(
