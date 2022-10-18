@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  scanner:
+    init: true
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    command: scanner
+    volumes:
+      - .:/scanner

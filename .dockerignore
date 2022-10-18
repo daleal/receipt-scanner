@@ -1,0 +1,12 @@
+# Exclude: everything
+*
+
+# Include: application files
+!receipt_scanner
+
+# Include: build files
+!pyproject.toml
+!poetry.lock
+
+# Include: misc files
+!docker/entrypoint.sh
