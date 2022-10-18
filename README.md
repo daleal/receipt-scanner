@@ -75,39 +75,13 @@ The `debug` flag will show logs of every step, and will freeze each image manipu
 
 ## Developing
 
-### Using Docker
-
-You can use Docker to run the CLI without the need to install Poetry nor Tesseract (+ Tesseract Spanish). A Docker configuration has already been provided. All you have to do is follow this steps:
-
-Clone the repository:
-
-```sh
-git clone https://github.com/daleal/receipt-scanner.git
-
-cd receipt-scanner
-```
-
-Then, build the container image:
-
-```sh
-docker compose build
-```
-
-Now you can use the CLI through Compose:
-
-```sh
-docker compose run scanner --help
-```
-
-### Without Docker
-
-#### Requirements
+### Requirements
 
 - [Poetry](https://python-poetry.org)
 - [Tesseract](https://tesseract-ocr.github.io/tessdoc/Installation.html)
 - [Teseract Spanish](https://parzibyte.me/blog/2019/05/18/instalar-tesseract-ocr-idioma-espanol-ubuntu)
 
-#### Steps
+### Steps
 
 Clone the repository:
 
