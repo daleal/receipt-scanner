@@ -25,10 +25,13 @@ packages = [
 ]
 exclude = [
     ".github",
+    ".dockerignore",
     ".flake8",
     ".pylintrc",
+    "docker-compose.yml",
     "mypy.ini",
     "Makefile",
+    "docker",
     "scripts"
 ]
 
