@@ -31,10 +31,14 @@ def find_contour(
 ) -> np.ndarray:
     contours = detect_contours(processed_image, downsized_image, debug=debug)
     rectangular_contours = filter_rectangular_contours(
-        downsized_image, contours, debug=debug,
+        downsized_image,
+        contours,
+        debug=debug,
     )
     big_contours = filter_internal_contours(
-        downsized_image, rectangular_contours, debug=debug,
+        downsized_image,
+        rectangular_contours,
+        debug=debug,
     )
     internal_contours = filter_external_contour(
         downsized_image,
@@ -62,10 +66,9 @@ def filter_rectangular_contours(
     debug: bool = False,
 ) -> list[np.ndarray]:
     logger.debug("Filtering non-rectangular contours...")
-    rectangular_contours = list(filter(
-        lambda contour: len(approximate_contour(contour)) == 4,
-        contours
-    ))
+    rectangular_contours = list(
+        filter(lambda contour: len(approximate_contour(contour)) == 4, contours)
+    )
     contours_detected_image = cv2.drawContours(
         original_image.copy(), rectangular_contours, -1, (0, 255, 0), 3
     )
