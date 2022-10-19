@@ -30,7 +30,7 @@ def find_contour(
     processed_image: np.ndarray, downsized_image: np.ndarray, debug: bool = False
 ) -> np.ndarray:
     contours = detect_contours(processed_image, downsized_image, debug=debug)
-    big_contours = filter_external_contour(downsized_image, contours, debug=debug)
+    big_contours = filter_internal_contours(downsized_image, contours, debug=debug)
     internal_contours = filter_external_contour(
         downsized_image,
         big_contours,
