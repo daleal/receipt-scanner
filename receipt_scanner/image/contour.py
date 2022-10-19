@@ -30,7 +30,12 @@ def find_contour(
     processed_image: np.ndarray, downsized_image: np.ndarray, debug: bool = False
 ) -> np.ndarray:
     contours = detect_contours(processed_image, downsized_image, debug=debug)
-    big_contours = filter_internal_contours(downsized_image, contours, debug=debug)
+    rectangular_contours = filter_rectangular_contours(
+        downsized_image, contours, debug=debug,
+    )
+    big_contours = filter_internal_contours(
+        downsized_image, rectangular_contours, debug=debug,
+    )
     internal_contours = filter_external_contour(
         downsized_image,
         big_contours,
@@ -41,7 +46,9 @@ def find_contour(
         internal_contours,
         debug=debug,
     )
-    return find_best_rectangular_contour(largest_contours)
+    if not largest_contours:
+        raise NoContourFoundError("No valid contour was found")
+    return approximate_contour(largest_contours[0])
 
 
 def approximate_contour(contour: np.ndarray) -> np.ndarray:
@@ -49,13 +56,21 @@ def approximate_contour(contour: np.ndarray) -> np.ndarray:
     return cv2.approxPolyDP(contour, 0.032 * perimeter, True)
 
 
-def find_best_rectangular_contour(contours: list[np.ndarray]) -> np.ndarray:
-    logger.debug("Searching for the best contour...")
-    for contour in contours:
-        contour_approximation = approximate_contour(contour)
-        if len(contour_approximation) == 4:
-            return contour_approximation
-    raise NoContourFoundError("No valid contour was found")
+def filter_rectangular_contours(
+    original_image: np.ndarray,
+    contours: list[np.ndarray],
+    debug: bool = False,
+) -> list[np.ndarray]:
+    logger.debug("Filtering non-rectangular contours...")
+    rectangular_contours = list(filter(
+        lambda contour: len(approximate_contour(contour)) == 4,
+        contours
+    ))
+    contours_detected_image = cv2.drawContours(
+        original_image.copy(), rectangular_contours, -1, (0, 255, 0), 3
+    )
+    debug_show(contours_detected_image, debug=debug)
+    return rectangular_contours
 
 
 def filter_largest_contours(
