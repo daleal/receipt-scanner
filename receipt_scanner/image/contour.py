@@ -138,7 +138,7 @@ def contour_not_too_big(image: np.ndarray, contour: np.ndarray) -> bool:
 
 
 def contour_not_too_small(image: np.ndarray, contour: np.ndarray) -> bool:
-    return cv2.contourArea(contour) >= (0.3 * image.shape[0] * image.shape[1])
+    return cv2.contourArea(contour) >= (0.1 * image.shape[0] * image.shape[1])
 
 
 def detect_contours(

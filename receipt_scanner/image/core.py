@@ -43,7 +43,7 @@ def process_image(file_name: str, debug: bool = False) -> np.ndarray:
         downsized_image,
         MorphologicalCloseFilter(iterations=4, debug=debug),
         MedianBlurFilter(debug=debug),
-        GaussianBlurFilter(debug=debug),
+        GaussianBlurFilter(size=3, debug=debug),
         CannyFilter(debug=debug),
         DilateFilter(debug=debug),
     )
